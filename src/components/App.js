@@ -4,29 +4,26 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import React from 'react';
-// import './App.css';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isPreviewPopupOpen, setPreviewPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
-  const handleEditAvatarClick = () => {
-    setEditAvatarPopupOpen(true);
-  };
-  const handleEditProfileClick = () => {
-    setEditProfilePopupOpen(true);
-  };
-  const handleAddNewCardClick = () => {
-    setAddPlacePopupOpen(true);
-  };
-  const handleOpenPreviewClick = () => {};
+  const handleCardClick = (card) => setSelectedCard(card);
+
+  const handleEditAvatarClick = () => setEditAvatarPopupOpen(true);
+
+  const handleEditProfileClick = () => setEditProfilePopupOpen(true);
+
+  const handleAddNewCardClick = () => setAddPlacePopupOpen(true);
+
   const closeAllPopups = () => {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
-    setPreviewPopupOpen(false);
+    setSelectedCard(null);
   };
 
   return (
@@ -103,13 +100,13 @@ function App() {
           Yes
         </button>
       </PopupWithForm>
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       <Header />
       <Main
         onEditProfileClick={handleEditProfileClick}
         onAddPlaceClick={handleAddNewCardClick}
         onEditAvatarClick={handleEditAvatarClick}
-        onCardClick={handleOpenPreviewClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
     </div>

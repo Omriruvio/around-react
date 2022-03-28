@@ -42,7 +42,7 @@ export default function Main(props) {
       <section className="cards">
         <ul className="cards-list">
           {cards.map((card) => {
-            return <Card key={card._id} card={card} />;
+            return <Card key={card._id} card={card} onCardClick={props.onCardClick} />;
           })}
         </ul>
       </section>
