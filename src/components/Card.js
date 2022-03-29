@@ -4,11 +4,11 @@ export default function Card(props) {
   const handleClick = () => props.onCardClick(props.card);
 
   return (
-    <li className="cards-list__item" onClick={handleClick}>
+    <li className="cards-list__item">
       <button type="button" className="button" aria-label="trash">
         <img src={deleteIcon} alt="trash button" className="button button_type_trash" />
       </button>
-      <img src={props.card.link} alt="" className="cards-list__image" />
+      <img src={props.card.link} alt={props.card.name} className="cards-list__image" onClick={handleClick} />
       <div className="cards-list__info-section">
         <h2 className="cards-list__image-title">{props.card.name}</h2>
         <div className="cards-list__like-wrapper">
