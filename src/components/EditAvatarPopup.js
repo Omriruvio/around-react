@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function EditAvatarPopup(props) {
   const imageInput = React.createRef();
-  const { isOpen, onClose, onUpdateAvatar, buttonText } = props;
+  const { isOpen, onClose, onUpdateAvatar, buttonText, onPopupClick } = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -12,28 +12,30 @@ export default function EditAvatarPopup(props) {
 
   React.useEffect(() => {
     imageInput.current.value = '';
-  }, [isOpen]);
+  }, [isOpen, imageInput]);
 
   return (
-    <PopupWithForm
-      onSubmit={handleSubmit}
-      name="profile-image"
-      title="Change profile picture"
-      isOpen={isOpen}
-      onClose={onClose}
-      buttonText={buttonText}
-    >
-      <input
-        ref={imageInput}
-        id="profile-image-input"
-        type="url"
-        className="form__input form__input_type_profile-image"
-        placeholder="Link to new profile image"
-        name="profileImageUrlInput"
-        required
-        minLength="1"
-      />
-      <span id="profile-image-input-error" className="form__input-error"></span>
-    </PopupWithForm>
+    <div onMouseDown={onPopupClick}>
+      <PopupWithForm
+        onSubmit={handleSubmit}
+        name="profile-image"
+        title="Change profile picture"
+        isOpen={isOpen}
+        onClose={onClose}
+        buttonText={buttonText}
+      >
+        <input
+          ref={imageInput}
+          id="profile-image-input"
+          type="url"
+          className="form__input form__input_type_profile-image"
+          placeholder="Link to new profile image"
+          name="profileImageUrlInput"
+          required
+          minLength="1"
+        />
+        <span id="profile-image-input-error" className="form__input-error"></span>
+      </PopupWithForm>
+    </div>
   );
 }

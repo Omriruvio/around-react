@@ -29,6 +29,8 @@ function App() {
 
   const handleAddNewCardClick = () => setIsAddPlacePopupOpen(true);
 
+  const handlePopupClick = (event) => event.target.classList.contains('popup_active') && closeAllPopups();
+
   const handleUpdateAvatar = (url) => {
     setEditAvatarButtonText('Updating...');
     api
@@ -114,25 +116,28 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <EditProfilePopup
+          onPopupClick={handlePopupClick}
           buttonText={editProfileButtonText}
           onUpdateUser={handleUpdateUser}
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
         />
         <AddPlacePopup
+          onPopupClick={handlePopupClick}
           buttonText={addPlacebuttonText}
           onAddPlaceSubmit={handleAddPlaceSubmit}
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
         />
         <EditAvatarPopup
+          onPopupClick={handlePopupClick}
           buttonText={editAvatarButtonText}
           onUpdateAvatar={handleUpdateAvatar}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         />
         <PopupWithForm name="delete-confirm" title="Are you sure?" onClose={closeAllPopups} buttonText="Yes" />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} onPopupClick={handlePopupClick} />
         <Header />
         <Main
           onEditProfileClick={handleEditProfileClick}

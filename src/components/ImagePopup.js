@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function ImagePopup(props) {
-  const { onClose, card } = props;
+  const { onClose, card, onPopupClick } = props;
   const [popupImageLink, setPopupImageLink] = React.useState('');
   const [popupImageName, setPopupImageName] = React.useState('');
 
@@ -13,7 +13,7 @@ export default function ImagePopup(props) {
   }, [card]);
 
   return (
-    <div className={`popup popup_type_preview ${card ? 'popup_active' : ''}`}>
+    <div className={`popup popup_type_preview ${card ? 'popup_active' : ''}`} onMouseDown={onPopupClick}>
       <div className="popup__window popup__window_type_preview">
         <button type="button" className="popup__close-button" aria-label="close" onClick={onClose}></button>
         <img src={popupImageLink} alt="preview" className="popup__preview-image" />
