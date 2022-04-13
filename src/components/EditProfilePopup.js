@@ -15,10 +15,6 @@ export default function EditProfilePopup(props) {
     }
   }, [currentUser]);
 
-  const handleNameChange = (event) => setName(event.target.value);
-
-  const handleTitleChange = (event) => setDescription(event.target.value);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateUser({ name, about: description });
@@ -28,7 +24,7 @@ export default function EditProfilePopup(props) {
   return (
     <PopupWithForm name="profile" title="Edit profile" onSubmit={handleSubmit} isOpen={isOpen} onClose={onClose} buttonText="Save">
       <input
-        onChange={handleNameChange}
+        onChange={(event) => setName(event.target.value)}
         value={name}
         id="name-input"
         type="text"
@@ -40,7 +36,7 @@ export default function EditProfilePopup(props) {
       />
       <span id="name-input-error" className="form__input-error"></span>
       <input
-        onChange={handleTitleChange}
+        onChange={(event) => setDescription(event.target.value)}
         value={description}
         id="title-input"
         type="text"

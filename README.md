@@ -32,9 +32,9 @@ This is a project built with React, HTML, CSS and JavaScript web page building c
 - [x] Add like button functionality
 - [x] Add "add card" functionality
 - [x] Add input validation for user controlled fields
-- [ ] Add ability to change user profile image & info
-- [ ] Add ability to add new card
-- [ ] Add ability to like and delete cards
+- [x] Add ability to change user profile image & info
+- [x] Add ability to add new card
+- [x] Add ability to like and delete cards
 - [x] Improve responsiveness for resolutions
   - [x] 320px - 550px
   - [x] - > 1280px
