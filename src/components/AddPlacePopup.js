@@ -20,7 +20,6 @@ export default function AddPlacePopup(props) {
     <PopupWithForm onSubmit={handleSubmit} name="new-card" title="New place" isOpen={isOpen} onClose={onClose} buttonText="Create">
       <input
         onChange={handleCardNameChange}
-        // value={cardName}
         id="image-title-input"
         type="text"
         className="form__input form__input_type_image-title"
@@ -33,7 +32,6 @@ export default function AddPlacePopup(props) {
       <span id="image-title-input-error" className="form__input-error"></span>
       <input
         onChange={handleCardLinkChange}
-        // value={cardLink}
         id="image-link-input"
         type="url"
         className="form__input form__input_type_image-link"
