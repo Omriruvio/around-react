@@ -6,6 +6,7 @@ import ImagePopup from './ImagePopup';
 import React, { useEffect } from 'react';
 import api from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -21,6 +22,13 @@ function App() {
   const handleEditProfileClick = () => setIsEditProfilePopupOpen(true);
 
   const handleAddNewCardClick = () => setIsAddPlacePopupOpen(true);
+
+  const handleUpdateUser = ({ name, about }) => {
+    api
+      .updateUserInfo({ name, about })
+      .then((user) => setCurrentUser(user))
+      .catch((err) => console.log(err));
+  };
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
@@ -39,30 +47,7 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <PopupWithForm name="profile" title="Edit profile" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} buttonText="Save">
-          <input
-            defaultValue=" "
-            id="name-input"
-            type="text"
-            className="form__input form__input_type_name"
-            name="profileFormNameInput"
-            required
-            minLength="2"
-            maxLength="40"
-          />
-          <span id="name-input-error" className="form__input-error"></span>
-          <input
-            defaultValue=" "
-            id="title-input"
-            type="text"
-            className="form__input form__input_type_title"
-            name="profileFormTitleInput"
-            required
-            minLength="2"
-            maxLength="200"
-          />
-          <span id="title-input-error" className="form__input-error"></span>
-        </PopupWithForm>
+        <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
         <PopupWithForm name="new-card" title="New place" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} buttonText="Create">
           <input
             id="image-title-input"
