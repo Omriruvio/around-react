@@ -18,11 +18,11 @@ class Api {
 
   _handleError = (err) => Promise.reject(err);
 
-  init = () => Promise.all([this._getInitialCards(), this.getUserInfo()]);
+  init = () => Promise.all([this._getInitialCards(), this._getUserInfo()]);
 
-  getInitialCards = () => this._fetch({ url: 'cards' });
+  _getInitialCards = () => this._fetch({ url: 'cards' });
 
-  getUserInfo = () => this._fetch({ url: 'users/me' });
+  _getUserInfo = () => this._fetch({ url: 'users/me' });
 
   updateUserInfo = ({ name, about }) => this._fetch({ url: 'users/me', method: 'PATCH', data: { name, about } });
 
@@ -31,10 +31,6 @@ class Api {
   submitNewCard = ({ name, link }) => this._fetch({ url: 'cards', method: 'POST', data: { name, link } });
 
   deleteCard = (cardId) => this._fetch({ url: `cards/${cardId}`, method: 'DELETE' });
-
-  // increaseLikeCount = (cardId) => this._fetch({ url: `cards/likes/${cardId}`, method: 'PUT' });
-
-  // reduceLikeCount = (cardId) => this._fetch({ url: `cards/likes/${cardId}`, method: 'DELETE' });
 
   handleLikeCardStatus = (cardId, isLiked) => {
     return this._fetch({ url: `cards/likes/${cardId}`, method: isLiked ? 'DELETE' : 'PUT' });
