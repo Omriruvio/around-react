@@ -36,9 +36,9 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
         closeAllPopups();
-        setEditAvatarButtonText('Save');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setEditAvatarButtonText('Save'));
   };
 
   const handleUpdateUser = ({ name, about }) => {
@@ -48,9 +48,9 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
         closeAllPopups();
-        setEditProfileButtonText('Save');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setEditProfileButtonText('Save'));
   };
 
   const handleAddPlaceSubmit = ({ name, link }) => {
@@ -60,9 +60,9 @@ function App() {
       .then((card) => {
         setCards([card, ...cards]);
         closeAllPopups();
-        setAddPlaceButtonText('Create');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setAddPlaceButtonText('Create'));
   };
 
   const handleCardLike = (card, isLiked) => {
