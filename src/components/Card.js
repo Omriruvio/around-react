@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
-  const isOwn = currentUser._id === props.card._id;
+  const isOwn = currentUser._id === props.card.owner._id;
   const isLiked = props.card.likes.some(({ _id }) => _id === currentUser._id);
   const cardLikeButtonClassName = isLiked ? `button like-button like-button_active` : `button like-button`;
 
@@ -12,10 +12,12 @@ export default function Card(props) {
 
   const handleLikeClick = () => props.onCardLike(props.card, isLiked);
 
+  const handleDeleteClick = () => props.onCardDelete(props.card);
+
   return (
     <li className="cards-list__item">
       {isOwn && (
-        <button type="button" className="button" aria-label="trash">
+        <button type="button" className="button" aria-label="trash" onClick={handleDeleteClick}>
           <img src={deleteIcon} alt="trash button" className="button button_type_trash" />
         </button>
       )}

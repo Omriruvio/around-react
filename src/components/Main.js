@@ -19,6 +19,16 @@ export default function Main(props) {
       .catch((err) => console.log(err));
   };
 
+  const handleCardDeleteClick = ({ _id: id }) => {
+    api
+      .deleteCard(id)
+      .then(() => {
+        const filteredCards = cards.filter((card) => card._id !== id);
+        setCards(filteredCards);
+      })
+      .catch((err) => console.log(err));
+  };
+
   React.useEffect(() => {
     api
       .getInitialCards()
@@ -52,7 +62,9 @@ export default function Main(props) {
       <section className="cards">
         <ul className="cards-list">
           {cards.map((card) => {
-            return <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={handleCardLike} />;
+            return (
+              <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardDelete={handleCardDeleteClick} onCardLike={handleCardLike} />
+            );
           })}
         </ul>
       </section>
