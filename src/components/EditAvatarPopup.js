@@ -3,17 +3,26 @@ import React from 'react';
 
 export default function EditAvatarPopup(props) {
   const imageInput = React.createRef();
-  const { isOpen, onClose, onUpdateAvatar } = props;
+  const { isOpen, onClose, onUpdateAvatar, buttonText } = props;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateAvatar(imageInput.current.value);
-    imageInput.current.value = '';
-    onClose();
   };
 
+  React.useEffect(() => {
+    imageInput.current.value = '';
+  }, [isOpen]);
+
   return (
-    <PopupWithForm onSubmit={handleSubmit} name="profile-image" title="Change profile picture" isOpen={isOpen} onClose={onClose} buttonText="Save">
+    <PopupWithForm
+      onSubmit={handleSubmit}
+      name="profile-image"
+      title="Change profile picture"
+      isOpen={isOpen}
+      onClose={onClose}
+      buttonText={buttonText}
+    >
       <input
         ref={imageInput}
         id="profile-image-input"

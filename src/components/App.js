@@ -17,6 +17,9 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [addPlacebuttonText, setAddPlaceButtonText] = React.useState('Create');
+  const [editProfileButtonText, setEditProfileButtonText] = React.useState('Save');
+  const [editAvatarButtonText, setEditAvatarButtonText] = React.useState('Save');
 
   const handleCardClick = (card) => setSelectedCard(card);
 
@@ -27,23 +30,38 @@ function App() {
   const handleAddNewCardClick = () => setIsAddPlacePopupOpen(true);
 
   const handleUpdateAvatar = (url) => {
+    setEditAvatarButtonText('Updating...');
     api
       .updateUserImage(url)
-      .then((user) => setCurrentUser(user))
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopups();
+        setEditAvatarButtonText('Save');
+      })
       .catch((err) => console.log(err));
   };
 
   const handleUpdateUser = ({ name, about }) => {
+    setEditProfileButtonText('Updating...');
     api
       .updateUserInfo({ name, about })
-      .then((user) => setCurrentUser(user))
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopups();
+        setEditProfileButtonText('Save');
+      })
       .catch((err) => console.log(err));
   };
 
   const handleAddPlaceSubmit = ({ name, link }) => {
+    setAddPlaceButtonText('Saving...');
     api
       .submitNewCard({ name, link })
-      .then((card) => setCards([card, ...cards]))
+      .then((card) => {
+        setCards([card, ...cards]);
+        closeAllPopups();
+        setAddPlaceButtonText('Create');
+      })
       .catch((err) => console.log(err));
   };
 
@@ -81,14 +99,38 @@ function App() {
         setCards(cards);
       })
       .catch((err) => console.log(err));
+
+    const closeByEscape = (e) => {
+      if (e.key === 'Escape') {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener('keydown', closeByEscape);
+    return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <EditProfilePopup onUpdateUser={handleUpdateUser} isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <AddPlacePopup onAddPlaceSubmit={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
-        <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+        <EditProfilePopup
+          buttonText={editProfileButtonText}
+          onUpdateUser={handleUpdateUser}
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+        />
+        <AddPlacePopup
+          buttonText={addPlacebuttonText}
+          onAddPlaceSubmit={handleAddPlaceSubmit}
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+        />
+        <EditAvatarPopup
+          buttonText={editAvatarButtonText}
+          onUpdateAvatar={handleUpdateAvatar}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+        />
         <PopupWithForm name="delete-confirm" title="Are you sure?" onClose={closeAllPopups} buttonText="Yes" />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <Header />

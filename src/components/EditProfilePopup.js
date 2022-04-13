@@ -3,7 +3,7 @@ import React from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 export default function EditProfilePopup(props) {
-  const { isOpen, onClose, onUpdateUser } = props;
+  const { isOpen, onClose, onUpdateUser, buttonText } = props;
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
   const currentUser = React.useContext(CurrentUserContext);
@@ -13,16 +13,15 @@ export default function EditProfilePopup(props) {
       setName(currentUser.name);
       setDescription(currentUser.about);
     }
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateUser({ name, about: description });
-    onClose();
   };
 
   return (
-    <PopupWithForm name="profile" title="Edit profile" onSubmit={handleSubmit} isOpen={isOpen} onClose={onClose} buttonText="Save">
+    <PopupWithForm name="profile" title="Edit profile" onSubmit={handleSubmit} isOpen={isOpen} onClose={onClose} buttonText={buttonText}>
       <input
         onChange={(event) => setName(event.target.value)}
         value={name}
