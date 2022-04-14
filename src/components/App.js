@@ -9,6 +9,7 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import PageLoader from 'react-fullpage-custom-loader';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -20,6 +21,7 @@ function App() {
   const [addPlacebuttonText, setAddPlaceButtonText] = React.useState('Create');
   const [editProfileButtonText, setEditProfileButtonText] = React.useState('Save');
   const [editAvatarButtonText, setEditAvatarButtonText] = React.useState('Save');
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const handleCardClick = (card) => setSelectedCard(card);
 
@@ -99,6 +101,7 @@ function App() {
       .then(([cards, user]) => {
         setCurrentUser(user);
         setCards(cards);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
 
@@ -115,6 +118,19 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+        {isLoading && (
+          <PageLoader
+            loaderType="ball-clip-rotate-multiple"
+            color="rgb(100, 214, 226)"
+            width="100%"
+            wrapperBackgroundColor={`linear-gradient(
+              180deg,
+              hsl(0deg 0% 0%) 24%,
+              hsl(0deg 0% 16%) 99%,
+              hsl(0deg 0% 23%) 100%
+            )`}
+          />
+        )}
         <EditProfilePopup
           onPopupClick={handlePopupClick}
           buttonText={editProfileButtonText}
