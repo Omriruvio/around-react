@@ -8,13 +8,14 @@ export default function EditProfilePopup(props) {
   const [validation, setValidation] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
   const [showError, setShowError] = React.useState(false);
-  // const [description, setDescription] = React.useState('');
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
+    if (!isOpen) setValidation({});
+  }, [isOpen]);
+
+  React.useEffect(() => {
     if (currentUser.name && currentUser.about && isOpen) {
-      // setName(currentUser.name);
-      // setDescription(currentUser.about);
       setInputs({
         profileFormNameInput: currentUser.name,
         profileFormTitleInput: currentUser.about,
@@ -39,14 +40,12 @@ export default function EditProfilePopup(props) {
   };
 
   React.useEffect(() => {
-    if (true) {
+    if (isOpen) {
       const isFormValid = !Object.values(validation).some((validity) => Boolean(validity));
-      // console.log(`form is ${!isFormValid ? 'not ' : ''}valid`);
-      // console.log(`form value is ${inputs.profileFormNameInput} ${inputs.profileFormTitleInput}`);
       setIsValid(isFormValid);
     }
-    if (!isValid) setTimeout(() => setShowError(true), 2000);
-  }, [inputs]);
+    if (!isValid) setShowError(true);
+  }, [validation, isValid, isOpen]);
 
   return (
     <div onMouseDown={onPopupClick}>
