@@ -1,5 +1,6 @@
 export default function PopupWithForm(props) {
-  const { name, title, onSubmit, children, buttonText, isOpen, onClose } = props;
+  const { name, title, onSubmit, children, buttonText, isOpen, onClose, isValid = true } = props;
+  const buttonClassName = `${!isValid ? 'button_disabled' : 'button'} form__submit-button`;
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_active' : ''}`}>
       <div className="popup__window">
@@ -7,7 +8,7 @@ export default function PopupWithForm(props) {
         <h2 className="popup__title">{title}</h2>
         <form onSubmit={onSubmit} className={`form form_${name}`} name={name}>
           {children}
-          <button type="submit" className="button form__submit-button form__submit-button_place_profile">
+          <button disabled={!isValid} type="submit" className={buttonClassName}>
             {buttonText}
           </button>
         </form>
