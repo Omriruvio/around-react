@@ -7,7 +7,7 @@ export default function AddPlacePopup(props) {
   // const [cardLink, setCardLink] = React.useState('');
   const [inputs, setInputs] = React.useState({});
   const [validation, setValidation] = React.useState({});
-  const [isValid, setIsValid] = React.useState(false);
+  const [isValid, setIsValid] = React.useState(true);
   // const [showError, setShowError] = React.useState(false);
 
   React.useEffect(() => {
