@@ -1,7 +1,7 @@
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
+import DeleteConfirmPopup from './DeleteConfirmPopup';
 import ImagePopup from './ImagePopup';
 import React, { useEffect } from 'react';
 import api from '../utils/api';
@@ -15,12 +15,15 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
+  const [cardToDelete, setCardToDelete] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [addPlacebuttonText, setAddPlaceButtonText] = React.useState('Create');
   const [editProfileButtonText, setEditProfileButtonText] = React.useState('Save');
   const [editAvatarButtonText, setEditAvatarButtonText] = React.useState('Save');
+  const [deleteConfirmButtonText, setDeleteConfirmButtonText] = React.useState('Yes');
   const [isLoading, setIsLoading] = React.useState(true);
 
   const handleCardClick = (card) => setSelectedCard(card);
@@ -78,20 +81,30 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const handleCardDeleteClick = ({ _id: id }) => {
+  const handleCardDeleteClick = (card) => {
+    setCardToDelete(card);
+    setIsConfirmPopupOpen(true);
+  };
+
+  const handleConfirmDeleteClick = () => {
+    setDeleteConfirmButtonText('Deleting...');
+    const { _id: id } = cardToDelete;
     api
       .deleteCard(id)
       .then(() => {
         const filteredCards = cards.filter((card) => card._id !== id);
         setCards(filteredCards);
+        closeAllPopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setDeleteConfirmButtonText('Yes'));
   };
 
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsConfirmPopupOpen(false);
     setSelectedCard(null);
   };
 
@@ -152,7 +165,13 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         />
-        <PopupWithForm name="delete-confirm" title="Are you sure?" onClose={closeAllPopups} buttonText="Yes" />
+        <DeleteConfirmPopup
+          onPopupClick={handlePopupClick}
+          onDeleteConfirm={handleConfirmDeleteClick}
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
+          buttonText={deleteConfirmButtonText}
+        />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} onPopupClick={handlePopupClick} />
         <Header />
         <Main
