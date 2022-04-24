@@ -48,7 +48,7 @@ export default function EditAvatarPopup(props) {
           value={imageInput}
           id="profile-image-input"
           type="url"
-          className="form__input form__input_type_profile-image"
+          className={`form__input ${showError && 'form__input_type_error'}`}
           placeholder="Link to new profile image"
           name="profileImageUrlInput"
           required

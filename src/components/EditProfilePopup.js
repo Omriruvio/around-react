@@ -7,7 +7,6 @@ export default function EditProfilePopup(props) {
   const [inputs, setInputs] = React.useState({});
   const [validation, setValidation] = React.useState({});
   const [isValid, setIsValid] = React.useState(true);
-  const [showError, setShowError] = React.useState(false);
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
@@ -44,7 +43,6 @@ export default function EditProfilePopup(props) {
       const isFormValid = !Object.values(validation).some((validity) => Boolean(validity));
       setIsValid(isFormValid);
     }
-    if (!isValid) setShowError(true);
   }, [validation, isValid, isOpen]);
 
   return (
@@ -63,7 +61,7 @@ export default function EditProfilePopup(props) {
           value={inputs.profileFormNameInput || ''}
           id="name-input"
           type="text"
-          className="form__input form__input_type_name"
+          className={`form__input ${validation.profileFormNameInput && 'form__input_type_error'}`}
           name="profileFormNameInput"
           required
           minLength="2"
@@ -77,7 +75,7 @@ export default function EditProfilePopup(props) {
           value={inputs.profileFormTitleInput || ''}
           id="title-input"
           type="text"
-          className="form__input form__input_type_title"
+          className={`form__input ${validation.profileFormTitleInput && 'form__input_type_error'}`}
           name="profileFormTitleInput"
           required
           minLength="2"

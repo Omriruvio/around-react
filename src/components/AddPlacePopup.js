@@ -3,12 +3,9 @@ import React from 'react';
 
 export default function AddPlacePopup(props) {
   const { isOpen, onClose, onAddPlaceSubmit, buttonText, onPopupClick } = props;
-  // const [cardName, setCardName] = React.useState('');
-  // const [cardLink, setCardLink] = React.useState('');
   const [inputs, setInputs] = React.useState({});
   const [validation, setValidation] = React.useState({});
   const [isValid, setIsValid] = React.useState(true);
-  // const [showError, setShowError] = React.useState(false);
 
   React.useEffect(() => {
     setInputs({});
@@ -54,7 +51,7 @@ export default function AddPlacePopup(props) {
           value={inputs.title || ''}
           id="image-title-input"
           type="text"
-          className="form__input form__input_type_image-title"
+          className={`form__input ${validation.title && 'form__input_type_error'}`}
           placeholder="Title"
           name="title"
           required
@@ -69,7 +66,7 @@ export default function AddPlacePopup(props) {
           value={inputs.link || ''}
           id="image-link-input"
           type="url"
-          className="form__input form__input_type_image-link"
+          className={`form__input ${validation.link && 'form__input_type_error'}`}
           placeholder="Image link"
           name="link"
           required
